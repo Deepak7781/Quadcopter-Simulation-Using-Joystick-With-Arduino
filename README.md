@@ -9,3 +9,5 @@ I had a joystick and a Arduino UNO with me, so I started to work on it.
 ### Step 1: Choosing a quadcopter
 
 - The first step is to choose a quadcopter for simulation - I chose Pix4 Iris.
+
+Parameters of the quadcopter
