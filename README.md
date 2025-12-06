@@ -26,6 +26,3 @@ Parameters of the quadcopter
 
 ### Step 2 : Build the Simulink Model
 
-- Create the equations of motions block
-- Create Motor dynamics block
-- Create Control Allocation Matrix
