@@ -22,3 +22,10 @@ Parameters of the quadcopter
 | Propeller Diameter | $m$ | 0.254 |
 | Thrust Coefficient$k_T$ | $N/(rad/s)^2$ | $1.3\times10^{-5}$ |
 | Thrust Coefficient$k_T$ | $N/(rad/s)^2$ | $1.1\times10^{-6}$ |
+
+
+### Step 2 : Build the Simulink Model
+
+- Create the equations of motions block
+- Create Motor dynamics block
+- Create Control Allocation Matrix
