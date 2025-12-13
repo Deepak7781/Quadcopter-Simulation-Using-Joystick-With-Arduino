@@ -10,3 +10,7 @@
 
 - BLDC motors convert electrical energy into mechanical energy through electromagnetic interactions between stator windings and rotor magnets. The "brushless" aspect refers to the absence of brushes, while "DC" indicates the input power source (though the internal operation mimics AC due to electronic switching)
 
+## Working Principle
+
+The core principle of a BLDC motor relies on the interaction between a permanent magnet rotor and a stator with electromagnets (windings). The rotor typically consists of permanent magnets arranged in poles (e.g., 2, 4, 6 or more), creating a magnetic field. The stator has multiple coils that are energized in a specific sequence to produce a rotating magnetic field, which "pulls" the rotor to follow it.
+
