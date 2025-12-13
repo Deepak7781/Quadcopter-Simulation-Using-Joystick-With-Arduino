@@ -101,3 +101,5 @@ The job of this controller is not flight control but its job is to make actual m
 - The PI controlled output is voltage $V_cmd$
 
 There will be gains for this PI controller namely $K_p$ and $K_i$, So we need to estimate $K_p$ and $K_i$.
+
+### Calculating the gains Kp and Ki
