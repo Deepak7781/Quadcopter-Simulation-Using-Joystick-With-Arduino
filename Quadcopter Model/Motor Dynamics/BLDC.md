@@ -44,6 +44,29 @@ Torque T is roughly $T=K_t \times I$, where $K_t$ is the torque constant and $I$
 
 BLDC motors can operate in trapezoidal (six step commutation, simpler) or sinusoidal (smoother, quieter) modes, with sinusoidal offering better efficiency and requiring more complex control.
 
+## Components
+
+### Rotor
+
+- Permanent Magnets (e.g., neodynium for high strength). Can be surface-mounted (SPM) or interior-mounted (IPM) for different performance characteristics.
+
+### Stator
+
+- Laminated iron core with slotted windings (concentrated or distributed). Typically 3-phase, star or delta connected.
+
+### Controller/Driver
+
+- Includes inverter bridge (6 switches), microcontroller (e.g., STM32 or DSP), and sensors. Handles commutation logic and protection (overcurrent, overtemperature). This part is the Electronic speed controller (ESC) in the quadrotor.
+
+### Sensors
+ 
+- Hall effect (3 sensors for 60 degree resolution) or encoders for precise feedback. Sensorless uses algorithms like zero-crossing detection.
+
+### Bearings and Housing
+
+- Ball bearings for low friction; aluminium or steel housing for heat dissipation.
+
+Power ratings range from milliwatts (e.g., phone vibrators) to kilowatts (e.g., EV traction motors up to 300 kW)
 
     
     
