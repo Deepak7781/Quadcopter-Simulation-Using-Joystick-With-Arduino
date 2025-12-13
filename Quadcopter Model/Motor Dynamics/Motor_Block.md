@@ -91,3 +91,13 @@ From this table we can estimate a reasonable value for L as $40 \mu H$.
 $$
     L\approx 40\mu H
 $$
+
+## ESC - As a PI Controller
+
+In the Motor1 subsystem we can see a PI controller block which is a model for the Electronic Speed Controller.
+
+The job of this controller is not flight control but its job is to make actual motor speed $\omega$ track commanded speed $\omega_{cmd}$ quickly and stably.
+
+- The PI controlled output is voltage $V_cmd$
+
+There will be gains for this PI controller namely $K_p$ and $K_i$, So we need to estimate $K_p$ and $K_i$.
