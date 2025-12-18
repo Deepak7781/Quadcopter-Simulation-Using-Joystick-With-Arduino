@@ -39,9 +39,3 @@ The above image shows the top level model of the Quadcopter. The blocks involved
 7. Quadcopter dynamics
 8.  Sensors
 9. State Estimator
-
-### 1. Reference Inputs
-
-This block contains the desired outputs of the quadcopter. Position and Yaw are the two reference inputs given to the system. Position is a 3x1 vector and Yaw is a scalar value. 
-
-![reference Inputs Block](Media/refInputs.png)
