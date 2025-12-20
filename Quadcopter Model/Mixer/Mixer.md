@@ -32,3 +32,43 @@ The mixer converts total thrust and moments and body moments $[T, M_x, M_y, M_z]
 - $Pitch,M_y \implies Rotataion \space about \space Y_B$
 - $Yaw,M_z \implies Rotataion \space about \space Z_B$
 - $\text{Thrust acts opposite to}+Z_B\space (upward)$
+
+In X-configuration geometry, motors are not aligned with $x$ or $y$ axis (body axis)
+
+Each motor is:
+
+- Distance $l$ from COM
+- At $45\degree$ to $x$ and $y$
+
+So the lever arms are split equally between $x$ and $y$
+
+#### Motor position vectors
+
+$$
+
+r_i = \begin{bmatrix}
+        [\frac{l}{\sqrt{2}},\frac{l}{\sqrt{2}},0] \\\\ 
+        [\frac{l}{\sqrt{2}},-\frac{l}{\sqrt{2}},0] \\\\
+        [-\frac{l}{\sqrt{2}},-\frac{l}{\sqrt{2}},0] \\\\
+        [-\frac{l}{\sqrt{2}},\frac{l}{\sqrt{2}},0] \\\\
+      \end{bmatrix}
+
+$$
+
+The first element is the position of motor 1, second element corresponds to position of motor 2, third element corresponds to the position of motor 3 and the fourth element is the position of motor 4.
+
+Moment from thrust = $r \times F$
+
+Each motor produces thrust:
+
+
+$$
+    F_i = 
+    \begin{bmatrix}
+        0 \\\\
+        0 \\\\
+        -T_i
+    \end{bmatrix}
+$$
+
+Moment: $\tau_i = r_i \times F_i$
