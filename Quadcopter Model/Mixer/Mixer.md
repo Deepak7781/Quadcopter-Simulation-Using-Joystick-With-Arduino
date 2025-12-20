@@ -75,7 +75,7 @@ Moment: $\tau_i = r_i \times F_i$
 
 ### Derivation of the Cross Product Result  
 
-### 1. Define the vectors
+### Define the vectors
 
 #### Position vector of motor *i*
 
@@ -107,7 +107,7 @@ $$
 
 ---
 
-### 2. Cross product definition
+### Cross product definition
 
 For two vectors $(\mathbf{a} \times \mathbf{b})$:
 
@@ -134,7 +134,7 @@ $$
 
 ---
 
-## 3. Expand the determinant
+## Expand the determinant
 
 ### x-component (roll moment)
 
@@ -193,7 +193,7 @@ $$
 
 ---
 
-### 4. Final result
+### Final result
 
 $$
 \boxed{
@@ -208,7 +208,7 @@ $$
 
 ---
 
-## 5. Physical interpretation
+### Physical interpretation
 
 - **Roll moment** depends on lateral offset $(y_i)$
 - **Pitch moment** depends on longitudinal offset $(x_i)$
@@ -216,7 +216,7 @@ $$
 
 ---
 
-## 6. Key takeaway
+### Key takeaway
 
 This result comes directly from the vector cross product:
 
@@ -225,4 +225,137 @@ $$
 $$
 
 and applies to any multirotor configuration.
+
+---
+
+### Roll Moment $M_x$
+
+$$
+M_x = \Sigma y_iT_i = \frac{l}{\sqrt{2}}T_1 - \frac{l}{\sqrt{2}}T_2 - \frac{l}{\sqrt{2}}T_3 + \frac{l}{\sqrt{2}}T_4
+$$
+
+$$
+M_x = \frac{l}{\sqrt{2}}(T_1 + T_2 + T_3 + T_4)
+$$
+
+### Pitch Moment $M_y$
+
+$$
+M_y = -\Sigma x_iT_i = -\frac{l}{\sqrt{2}}T_1 - \frac{l}{\sqrt{2}}T_2 + \frac{l}{\sqrt{2}}T_3 + \frac{l}{\sqrt{2}}T_4
+$$
+
+$$
+M_y = \frac{l}{\sqrt{2}}(-T_1 - T_2 + T_3 + T_4)
+$$
+
+But we chose a sign convention in which nose up as positive.
+So the above equation becomes
+
+$$
+M_y = \frac{l}{\sqrt{2}}(T_1 + T_2 - T_3 - T_4)
+$$
+
+The physics is fixed by the cross product; only the definition of positive pitch changes the final sign.
+
+### Yaw moment ($M_z$)
+
+Yaw does not come from thrust offset. Each motor produces drag torque.
+
+$$
+    Q_i = k_m\omega_i^2
+$$
+
+Depending on spin direction
+
+|Motor|Spin|Yaw sign|
+|----|-----|--------|
+|  1 | CCW |   +    |
+|  2 | CW  |   -    |
+|  3 | CCW |   +    |
+|  4 | CW  |   -    |
+
+$M_z = Q_1 - Q_2 + Q_3 - Q_4$
+
+#### Why thrust does not contribute to yaw
+
+- Thrust vectors are parallel, no moment about z.
+- Yaw is purely aerodynamic reaction torque, not lever arm effect.
+
+### Total Thrust (T)
+
+Total Thrust is the sum of all thrusts from the motors
+
+$T = T_1 + T_2 + T_3 + T_4$
+
+## Control Allocation Matrix
+
+$$
+\begin{bmatrix}
+T \\\\
+M_x \\\\
+M_y \\\\
+M_z 
+\end{bmatrix}
+=
+\begin{bmatrix}
+1&1&1&1 \\\\
+\frac{l}{\sqrt{2}} & -\frac{l}{\sqrt{2}} & -\frac{l}{\sqrt{2}} & \frac{l}{\sqrt{2}} \\\\
+\frac{l}{\sqrt{2}} & +\frac{l}{\sqrt{2}} & -\frac{l}{\sqrt{2}} & -\frac{l}{\sqrt{2}} \\\\
+Q_1 & -Q_2 & Q_3 & -Q_4
+\end{bmatrix}
+\begin{bmatrix}
+T_1\\\\
+T_2 \\\\
+T_3 \\\\
+T_4 
+\end{bmatrix}
+$$
+
+$$
+\begin{bmatrix}
+T \\\\
+M_x \\\\
+M_y \\\\
+M_z 
+\end{bmatrix}
+=
+\begin{bmatrix}
+k_t&k_t&k_t&k_t \\\\
+\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} & \frac{k_tl}{\sqrt{2}} \\\\
+\frac{k_tl}{\sqrt{2}} & +\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} \\\\
+k_m & -k_m & k_m & -k_m
+\end{bmatrix}
+\begin{bmatrix}
+\omega_1^2\\\\
+\omega_2^2 \\\\
+\omega_3^2 \\\\
+\omega_4^2 
+\end{bmatrix}
+$$
+
+The equation to be used in the Mixer block is as follows
+
+$$
+\begin{bmatrix}
+\omega_1^2\\\\
+\omega_2^2 \\\\
+\omega_3^2 \\\\
+\omega_4^2 
+\end{bmatrix}
+
+=
+\begin{bmatrix}
+k_t&k_t&k_t&k_t \\\\
+\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} & \frac{k_tl}{\sqrt{2}} \\\\
+\frac{k_tl}{\sqrt{2}} & +\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} & -\frac{k_tl}{\sqrt{2}} \\\\
+k_m & -k_m & k_m & -k_m
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+T \\\\
+M_x \\\\
+M_y \\\\
+M_z 
+\end{bmatrix}
+$$
+
 
