@@ -139,3 +139,41 @@ From posterior $k-1$ , forecast to $k$ using dynamics.
 $$
 \hat{\mathbf{x}}_{k|k-1} = \bold{A}\hat{\mathbf{x}}_{k-1|k-1} + \bold{B}\mathbf{u}_{k-1}
 $$
+
+- **Why?** : Linear expectation: $\mathbb{E}[\mathbf{x}_k] = \bold{A}\mathbb{E}[\mathbf{x}_{k-1}] + \bold{B}\mathbf{u}$ (noise mean = 0)
+
+$$
+    \bold{P}_{k|k-1} = \bold{A}\bold{P}_{k-1|k-1}\bold{A}^T + \bold{Q}
+$$
+
+- **Why?** : Variance propagates: $ Var(\bold{A}\mathbf{x}) = \mathbf{A}Var(\mathbf{x})\bold{A}^T$ , plus added noise Q. (Transpose for matrix math.)
+
+### Step 2: Correct (Measurement Update) - Fuse with New Data
+
+Incorporate $\mathbf{z}_k$ via Bayes.
+
+- **Innovation (Residual)** : $\mathbf{y}_k = \mathbf{z}_k - \bold{H}\hat{\mathbf{x}}_{k|k-1}$
+    - Predicted measurement minus actual: How off was the prior.
+
+- **Innovation Covariance** : Uncertainty in residual. $\bold{S}_k = \bold{H}\bold{P}_{k|k-1}\bold{H}^T + \bold{R}$
+    - Predicted uncertainty projected to measurement space + sensor noise.
+
+- **Kalman Gain $K_k$** : How much to trust measurement vs. prior.
+
+$$
+    \bold{K}_k = \bold{P}_{k|k-1}\bold{H}^T S_{k}^{-1}
+$$
+
+- **Posterior Mean** :
+
+$$
+    \hat{\mathbf{x}}_{k|k} = \hat{\mathbf{x}}_{k|k-1} + \bold{K}_k\mathbf{y}_{k}
+$$
+
+- **Posterior Covariance** :
+
+$$
+    \bold{P}_{k|k} = (\bold{I} - \bold{K}_k\bold{H})\bold{P}_{k|k-1}
+$$
+
+    - $\bold{I}$ : Identity matrix
