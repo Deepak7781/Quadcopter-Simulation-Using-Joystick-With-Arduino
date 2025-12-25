@@ -119,3 +119,23 @@ Compute **posterior** $p(\mathbf{x}_k|\mathbf{Z}_k) \approx \mathcal{N}(\hat{\ma
 
 
 ## How the Kalman Filter Works - The Predict-Correct Cycle
+
+KF is **recursive**: Uses previous posterior to predict, then correxts with new data. Two steps per time $k$
+
+### Notation Refresher
+
+- $\hat{\mathbf{x}}_{k|k-1}$ : Prior mean (predict for k using data to k-1).
+
+- $\bold{P}_{k|k-1}$ : Prior covariance
+
+- $\hat{\mathbf{x}}_{k|k}$ : Posterior mean
+
+-  $\bold{P}_{k|k}$ : Posterior covariance
+
+### Step 1: Predict (Time Update) - Propagate Belief Forward
+
+From posterior $k-1$ , forecast to $k$ using dynamics.
+
+$$
+\hat{\mathbf{x}}_{k|k-1} = \bold{A}\hat{\mathbf{x}}_{k-1|k-1} + \bold{B}\mathbf{u}_{k-1}
+$$
