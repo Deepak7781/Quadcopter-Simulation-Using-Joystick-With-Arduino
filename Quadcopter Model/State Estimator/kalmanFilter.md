@@ -57,7 +57,7 @@ KF is built on probability: It doesn't give a single "answer" but a distribution
 
 ### Bayesian Updating (The Heart of KF)
 
-- **Bayes' Rule:**Update beliefs with new data.
+- **Bayes' Rule:** Update beliefs with new data.
 
 $$
     \text{Posterior} \propto \text{Likelihood} \times \text{Prior}
@@ -76,6 +76,46 @@ KF models dynamic systems as hidden states evolving over time, observed noisily.
 ### Core Components
 
 - **Time Steps**: Discrete $k=1,2,\dots$
-- **State $\mathbf{x}_k$**: Hidden vector of what you care about. (e.g., $[position,velocity]^T$). Size: $n \times 1$
+
+- **State $\mathbf{x}_k$** : Hidden vector of what you care about. (e.g., $[position,velocity]^T$). Size: $n \times 1$
     - Why hidden? You can't measure it directly (e.g., true velocity isn't sensed)
-- **Measurement mathbf{x}_k**
+
+- **Measurement $\mathbf{x}_k$** : What you observe (e.g., GPS position). Size : $p \times 1$, $p \leq n$.
+
+- **Measurement $\mathbf{u}_k$** : Known inputs (e.g., acceleration pedal). Optional.
+
+### The Two Equations (Linear Gaussian Model)
+
+1. **Process (Dynamics) Equation:** How state evolves.
+
+$$
+    \mathbf{x}_k = \bold{A}\mathbf{x}_{k-1} + \bold{B}\mathbf{u}_{k-1} + \mathbf{w}_{k-1}
+$$
+
+- $\bold{A}:$ Transition matrix (how state maps forward, e.g., $ \begin{bmatrix} 1 & \Delta t \\\\ 0 & 1  \end{bmatrix}$ for constant velocity: pos += vel*time).
+
+- $\bold{B}:$ Control matrix (how inputs affect state).
+
+- $\mathbf{w}_{k-1} \sim \mathcal{N}(0,\bold{Q}):$ Process white noise - models uncertainty in dynamics (e.g., wind, unmodeled friction). $\bold{Q}$ : Covariance (how much "wiggle room").
+
+2. **Measurement Equation:** How state produces observation.
+
+$$
+    \mathbf{z}_k = \bold{H}\mathbf{x}_{k} + \mathbf{v}_{k}
+$$
+
+- $\bold{H}$ : Observation Matrix (what parts of state you measure, e.g., [1, 0] for position only).
+
+-  $\mathbf{w}_{k-1} \sim \mathcal{N}(0,\bold{R}):$ Measurement white noise (sensor error). $\bold{R}$ : Covariance (sensor precision).
+
+### Assumptions
+
+- Linearity (A, H fixed or time-varying but linear)
+- Gaussian white noise (uncorrelated, zero-mean)
+- Markov: Future depends only on present (memoryless dynamics)
+
+### Goal of KF: 
+Compute **posterior** $p(\mathbf{x}_k|\mathbf{Z}_k) \approx \mathcal{N}(\hat{\mathbf{x}}_{k|k}, \bold{P}_{k|k})$, where $\mathbf{Z}_k = {z_1,z_2,\dots, z_k}$
+
+
+## How the Kalman Filter Works - The Predict-Correct Cycle
