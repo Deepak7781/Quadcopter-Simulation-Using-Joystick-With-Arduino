@@ -176,4 +176,4 @@ $$
     \bold{P}_{k|k} = (\bold{I} - \bold{K}_k\bold{H})\bold{P}_{k|k-1}
 $$
 
-    - $\bold{I}$ : Identity matrix
+$\bold{I}$ : Identity matrix
