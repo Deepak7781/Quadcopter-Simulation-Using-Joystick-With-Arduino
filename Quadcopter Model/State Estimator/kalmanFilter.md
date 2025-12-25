@@ -1,91 +1,38 @@
 # Kalman Filter
 
-## 1. Why Kalman Filter Exists?
+## The Basics
 
-### The Real-world problem
+### Why do we need a filter?
 
-Imagine this:
+Imagine you're trying to track a friend's location in a foggy park using only glimpses of their flashlight. The fog blurs your view (noise), and you only see flashes occasionally (measurements). Your brain predicts where they'll be next based on their walking pattern (model), then corrects when you see a flash. The Kalman Filter does exactly this mathematically for computers: it estimates "hidden truths" (like position) from imperfect, noisy data.
 
-You want to know where an aircraft is right now.
-
-You have have:
-
-- A mathematical model (physics)
-- Sensors (GPS, accelerometer, radar)
-
-But: 
-
-- Models are never perfect
-- Sensors are never exact
-
-So the real question is : How do we combine an imperfect model and imperfect measurements to get the best possible estimate of the true state?
-
-That is the Kalman Filter problem.
-
-### What does "estimate" mean?
-
-Suppose the true position is:
-
-$$
-    x_{true} = 100.0 \space m
-$$
-
-Your sensor says:
-
-$$
-    z = 102.3 \space m
-$$
-
-Is the true position 102.3 m?
-Not necessarily - the sensor is noisy.
-
-Your model predicts:
-
-$$
-    x_{model} = 98.7 \space m
-$$ 
-
-Which do you trust?
-- Kalman Filter answers this quantitatively.
-
-## 2. What is Noise?
+**Key Idea: Real-world data is always noisy-sensors glitch, models aren't perfect. KF "filters" out the junk to give the best possible guess.**
 
 ### What is noise?
 
-Noise is unwanted randomness added to a signal.
+- Noise is any unwanted random variation in data. Like static on radio: it muddles the signal (true) you care about.
+    - **Signal**: The true underlying pattern (e.g., a car's exact speed).
+    - **Noise**: Random errors (e.g., wind jiggling the speedometer).
+- Without filtering, noise makes estimates jumpy and useless. KF smooths it intelligently.
 
-Examples:
-- Electrical noise in circuits
-- GPS position jitter
-- Accelerometer vibration
-- Wind gusts
+### What is White Noise? (The "Random Buzz" KF Assumes)
 
-Noise is:
-- Random
-- Unpredictable in exact value
-- But predictable in statistics
+- White noise is a specific type of noise: **random, uncorrelated, and zero-mean** (averages to zero over time).
 
-### Why randomness must be modeled mathematically
+    - Why "white"? Like white light (all frequencies equal), it has equal power across all times/frequencies-no patterns, just flat randomness.
 
-You cannot predict: next noise value
+    - **Key Properties**
+            - Zero mean: $\mathbb{E}[w] = 0$
+            - Uncorrelated: Future noise doesn't depend on past noise. If $w_k$ is noise at time $k$, then $\mathbb{E}[w_kw_{k-1}] = 0$ (no memory)
+            - Stationary: Same statistics (variance) at all times.
 
-But you can say:
-- How large it usually is.
-- How often large errors occur
+- **Symbol** : We donte white noise as $w_k$ or $v_k$ (process or measurement noise).
 
-This leads us to probability.
+- **Gaussian White Noise**: KF assumes noise is Gaussian (bell-shaped). Why? Math works out nicely (more below).
 
-## 3. Probability
+## Probability Basics - The Language of Uncertainty
 
-### What is probability?
+KF is built on probability: It doesn't give a single "answer" but a distribution (range of possibilities) witha a "best guess" and uncertainty.
 
-Probability measures uncertainty,
-
-If I say:
-- "The error is small most of the time."
-- "Large errors are rare."
-
-I am describing a probability distribution.
-
-
+### The Normal (Gaussian) Distribution and $\mathcal{N}$
 
