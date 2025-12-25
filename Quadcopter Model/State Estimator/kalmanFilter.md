@@ -37,3 +37,45 @@ KF is built on probability: It doesn't give a single "answer" but a distribution
 ### The Normal (Gaussian) Distribution and $\mathcal{N}$
 
 ![Normal Distribution](normal_distribution.png)
+
+- **What is it?** The famous bell curve - most common distribution in nature (heights, errors, etc.) due to Central Limit Theorem (many small random effects add up to bell-shaped).
+
+    - Symmetric, single peak, tail fades to zero
+    - 68% of values within $1\sigma$ of mean and 95% within $2\sigma$
+
+- **Symbol**: $x \sim \mathcal{N}(\mu,\sigma^2)$
+
+    - $x \sim:$ "x follows" or "x is distributed as"
+    - $\mathcal{N}:$ Script "N" for Normal (Gaussian)
+    - $(\mu, \sigma^2):$ Parameters - mean and variance 
+    - **Vector Form**: $\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})$, where $\boldsymbol{\Sigma}$ is the covariance matrix (diagonal if independent dimensions).
+
+- **Why Gaussian for KF?**
+
+    - Linearity + Gaussian noise, the posterior stays Gaussian (conjugate property: easy math)
+    - Real noise is often approximately Gaussian.
+
+### Bayesian Updating (The Heart of KF)
+
+- **Bayes' Rule:**Update beliefs with new data.
+
+$$
+    \text{Posterior} \propto \text{Likelihood} \times \text{Prior}
+$$
+
+    Prior: Your belief before the new data (from model/past).
+    Likelihood: How well data fits the belief (new evidence).
+    Posterior: Updated belief after data
+
+- KF applies this recursively: Prior→(Predict)→Likelihood (measurement) → Posterior → Repeat
+
+## The State-Space Model - What KF Estimates
+
+KF models dynamic systems as hidden states evolving over time, observed noisily.
+
+### Core Components
+
+- **Time Steps**: Discrete $k=1,2,\dots$
+- **State $\mathbf{x}_k$**: Hidden vector of what you care about. (e.g., $[position,velocity]^T$). Size: $n \times 1$
+    - Why hidden? You can't measure it directly (e.g., true velocity isn't sensed)
+- **Measurement mathbf{x}_k**
