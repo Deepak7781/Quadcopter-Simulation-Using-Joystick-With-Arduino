@@ -36,3 +36,4 @@ KF is built on probability: It doesn't give a single "answer" but a distribution
 
 ### The Normal (Gaussian) Distribution and $\mathcal{N}$
 
+![Normal Distribution](normal_distribution.png)
