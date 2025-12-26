@@ -89,24 +89,35 @@ KF models dynamic systems as hidden states evolving over time, observed noisily.
 1. **Process (Dynamics) Equation:** How state evolves.
 
 $$
-    \mathbf{x}_k = \bold{A}\mathbf{x}_{k-1} + \bold{B}\mathbf{u}_{k-1} + \mathbf{w}_{k-1}
+    \mathbf{x}_k = \boldsymbol{A}\mathbf{x}_{k-1} + \boldsymbol{B}\mathbf{u}_{k-1} + \mathbf{w}_{k-1}
 $$
 
-- $\bold{A}:$ Transition matrix (how state maps forward, e.g., $ \begin{bmatrix} 1 & \Delta t \\\\ 0 & 1  \end{bmatrix}$ for constant velocity: pos += vel*time).
+- $\boldsymbol{A}:$ Transition matrix (how state maps forward, e.g.,
+  
+$$
+\mathbf{A} =
+\begin{bmatrix}
+1 & \Delta t \\
+0 & 1
+\end{bmatrix}
+$$
+  
+  
+  for constant velocity: pos += vel*time).
 
-- $\bold{B}:$ Control matrix (how inputs affect state).
+- $\boldsymbol{B}:$ Control matrix (how inputs affect state).
 
-- $\mathbf{w}_{k-1} \sim \mathcal{N}(0,\bold{Q}):$ Process white noise - models uncertainty in dynamics (e.g., wind, unmodeled friction). $\bold{Q}$ : Covariance (how much "wiggle room").
+- $\mathbf{w}_{k-1} \sim \mathcal{N}(0,\boldsymbol{Q}):$ Process white noise - models uncertainty in dynamics (e.g., wind, unmodeled friction). $\boldsymbol{Q}$ : Covariance (how much "wiggle room").
 
 2. **Measurement Equation:** How state produces observation.
 
 $$
-    \mathbf{z}_k = \bold{H}\mathbf{x}_{k} + \mathbf{v}_{k}
+    \mathbf{z}_k = \boldsymbol{H}\mathbf{x}_{k} + \mathbf{v}_{k}
 $$
 
-- $\bold{H}$ : Observation Matrix (what parts of state you measure, e.g., [1, 0] for position only).
+- $\boldsymbol{H}$ : Observation Matrix (what parts of state you measure, e.g., [1, 0] for position only).
 
--  $\mathbf{w}_{k-1} \sim \mathcal{N}(0,\bold{R}):$ Measurement white noise (sensor error). $\bold{R}$ : Covariance (sensor precision).
+-  $\mathbf{w}_{k-1} \sim \mathcal{N}(0,\boldsymbol{R}):$ Measurement white noise (sensor error). $\boldsymbol{R}$ : Covariance (sensor precision).
 
 ### Assumptions
 
@@ -115,7 +126,13 @@ $$
 - Markov: Future depends only on present (memoryless dynamics)
 
 ### Goal of KF: 
-Compute **posterior** $p(\mathbf{x}_k|\mathbf{Z}_k) \approx \mathcal{N}(\hat{\mathbf{x}}_{k|k}, \bold{P}_{k|k})$, where $\mathbf{Z}_k = {z_1,z_2,\dots, z_k}$
+Compute **posterior** 
+
+$$
+p(\mathbf{x}_k|\mathbf{Z}_k) \approx \mathcal{N}(\hat{\mathbf{x}}_{k|k}, \boldsymbol{P}_{k|k})
+$$
+
+where $\mathbf{Z}_k = {z_1,z_2,\dots, z_k}$
 
 
 ## How the Kalman Filter Works - The Predict-Correct Cycle
@@ -126,54 +143,76 @@ KF is **recursive**: Uses previous posterior to predict, then correxts with new 
 
 - $\hat{\mathbf{x}}_{k|k-1}$ : Prior mean (predict for k using data to k-1).
 
-- $\bold{P}_{k|k-1}$ : Prior covariance
+- $\boldsymbol{P}_{k|k-1}$ : Prior covariance
 
 - $\hat{\mathbf{x}}_{k|k}$ : Posterior mean
 
--  $\bold{P}_{k|k}$ : Posterior covariance
+-  $\boldsymbol{P}_{k|k}$ : Posterior covariance
 
 ### Step 1: Predict (Time Update) - Propagate Belief Forward
 
 From posterior $k-1$ , forecast to $k$ using dynamics.
 
 $$
-\hat{\mathbf{x}}_{k|k-1} = \bold{A}\hat{\mathbf{x}}_{k-1|k-1} + \bold{B}\mathbf{u}_{k-1}
+\hat{\mathbf{x}}_{k|k-1} = \boldsymbol{A}\hat{\mathbf{x}}_{k-1|k-1} + \boldsymbol{B}\mathbf{u}_{k-1}
 $$
 
-- **Why?** : Linear expectation: $\mathbb{E}[\mathbf{x}_k] = \bold{A}\mathbb{E}[\mathbf{x}_{k-1}] + \bold{B}\mathbf{u}$ (noise mean = 0)
+- **Why?** : Linear expectation:
+  
+$$
+\mathbb{E}[\mathbf{x}_k] = \boldsymbol{A}\mathbb{E}[\mathbf{x}_{k-1}] + \boldsymbol{B}\mathbf{u}
+$$
+
+(noise mean = 0)
 
 $$
-    \bold{P}_{k|k-1} = \bold{A}\bold{P}_{k-1|k-1}\bold{A}^T + \bold{Q}
+    \boldsymbol{P}_{k|k-1} = \boldsymbol{A}\boldsymbol{P}_{k-1|k-1}\boldsymbol{A}^T + \boldsymbol{Q}
 $$
 
-- **Why?** : Variance propagates: $ Var(\bold{A}\mathbf{x}) = \mathbf{A}Var(\mathbf{x})\bold{A}^T$ , plus added noise Q. (Transpose for matrix math.)
+- **Why?** : Variance propagates:
+
+$$ 
+Var(\boldsymbol{A}\mathbf{x}) = \mathbf{A}Var(\mathbf{x})\boldsymbol{A}^T
+$$ 
+
+plus added noise Q. (Transpose for matrix math.)
 
 ### Step 2: Correct (Measurement Update) - Fuse with New Data
 
 Incorporate $\mathbf{z}_k$ via Bayes.
 
-- **Innovation (Residual)** : $\mathbf{y}_k = \mathbf{z}_k - \bold{H}\hat{\mathbf{x}}_{k|k-1}$
-    - Predicted measurement minus actual: How off was the prior.
+- **Innovation (Residual)** :
 
-- **Innovation Covariance** : Uncertainty in residual. $\bold{S}_k = \bold{H}\bold{P}_{k|k-1}\bold{H}^T + \bold{R}$
-    - Predicted uncertainty projected to measurement space + sensor noise.
+$$
+\mathbf{y}_k = \mathbf{z}_k - \boldsymbol{H}\hat{\mathbf{x}}_{k|k-1}
+$$
+
+ Predicted measurement minus actual: How off was the prior.
+
+- **Innovation Covariance** : Uncertainty in residual.
+
+$$
+\boldsymbol{S}_k = \boldsymbol{H}\boldsymbol{P}_{k|k-1}\boldsymbol{H}^T + \boldsymbol{R}
+$$
+
+Predicted uncertainty projected to measurement space + sensor noise.
 
 - **Kalman Gain $K_k$** : How much to trust measurement vs. prior.
 
 $$
-    \bold{K}_k = \bold{P}_{k|k-1}\bold{H}^T S_{k}^{-1}
+    \boldsymbol{K}_k = \boldsymbol{P}_{k|k-1}\boldsymbol{H}^T S_{k}^{-1}
 $$
 
 - **Posterior Mean** :
 
 $$
-    \hat{\mathbf{x}}_{k|k} = \hat{\mathbf{x}}_{k|k-1} + \bold{K}_k\mathbf{y}_{k}
+    \hat{\mathbf{x}}_{k|k} = \hat{\mathbf{x}}_{k|k-1} + \boldsymbol{K}_k\mathbf{y}_{k}
 $$
 
 - **Posterior Covariance** :
 
 $$
-    \bold{P}_{k|k} = (\bold{I} - \bold{K}_k\bold{H})\bold{P}_{k|k-1}
+    \boldsymbol{P}_{k|k} = (\boldsymbol{I} - \boldsymbol{K}_k\boldsymbol{H})\boldsymbol{P}_{k|k-1}
 $$
 
-    - $\bold{I}$ : Identity matrix
+$\boldsymbol{I}$ : Identity matrix
