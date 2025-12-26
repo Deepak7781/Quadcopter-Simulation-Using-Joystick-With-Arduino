@@ -224,7 +224,7 @@ KF has 5 key parameters. Some known, others tuned.
 
 |Parameter|What it is|How Measured/Estimated|Example|
 |---------|----------|----------------------|-------|
-|A (Transition)|How state eveolves (physics-derived)|From domain knowledge (e.g., Newton's laws dicretized).Fixed.|Constant velocity: Derived from $\Delta ts$|
+|A (Transition)|How state eveolves (physics-derived)|From domain knowledge (e.g., Newton's laws dicretized).Fixed.|Constant velocity: Derived from $\Delta t$|
 |B (Control)|How inputs affect state|Similarly, from model (e.g.,motor gains).Often 0 if no controls|Car: B scales throttle to acceleration|
 |H (Observation)|What you measure from state|Sensor geometry (e.g., GPS measures position, not velocity).Fixed|Radar: H picks position componenets|
 |Q(Process Noise Cov.)|Model uncertainty(size n $\times$ n, diagonal often)|- Measure: Simulate mismatches (e.g., wind variance) - Estimate: Tune via trial/error or EM algorithm (maximize likelihood).- Start small; increase if estimates lag reality.- Diagonal: Independent noise per state.|q = 0.1 for velocity (wind); off-diag if pos/vel correlate.|
