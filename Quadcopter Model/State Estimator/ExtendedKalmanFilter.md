@@ -81,3 +81,39 @@ $$
     P_k = (I - K_kH_k)P_{k|k-1}
 $$
 
+## Tuning EKF Parameters
+
+- EKF performance depends heavily on choosing appropriate noise covariances.
+    - Process Noise Q (model uncertainty)
+    - Measurement Noise R  (sensor accuracy)
+- Poor tuning can lead to:
+    - Slow convergence
+    - Overconfidence (underestimated uncertainty)
+    - Filter divergence
+- Like KF, EKF is a tradeoff between trust in model vs trust in sensor
+    - High Q, Low R - rely more on measurements
+    - Low Q, High R - rely more on model predictions
+- Use cross - validation and domain knowledge to strike the right balance.
+
+## Limitaions of EKF
+
+- First Order approximation: Large error when nonlinearity is strong.
+- Jacobians can be comples and hard to derive.
+- May diverge with poor linearization.
+- Inconsistencies: Covariance can become too optimistic
+- Not suitable for multi-modal distributions.
+- Doesn't handle non-gaussian noise well.
+
+## Alternatives for EKF
+
+- EKF is based on first oreder linearization using Jacobians.
+- Works well for mild nonlinearities, but fails when:
+    - System is highly nonlinear
+    - Deriving Jacobians is complex or error-prone
+    - Noise is non-gaussian or multi-modal
+
+- **Unscented Kalman Filter (UKF):** No Jacobains, sigma points
+- **Particle Filter:** Non-Gaussian, sample based
+- **Factor Graph SLAM:** nonlinear optimization based approach
+
+- However EKF is still used when computational efficiency is critical.
