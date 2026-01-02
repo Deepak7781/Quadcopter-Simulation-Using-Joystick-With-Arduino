@@ -7,7 +7,7 @@
 
 % Define gravitational force vector
 
-syms T  m g theta psi phi  Ix Iy Iz p q r L M N u v w
+syms T  m g theta psi phi  Ix Iy Iz p q r tau_x tau_y tau_z u v w
 
 
 FgI = m*[0; 0; g]; % Assuming downward gravity in the z-direction
@@ -15,6 +15,8 @@ FgI = m*[0; 0; g]; % Assuming downward gravity in the z-direction
 Fb = [0;0;-T]; % Body forces 
 
 Vb = [u;v;w];
+
+omega_b = [p;q;r];
 
 
 % We are trying to derive the translational equations of motion in Body
@@ -30,7 +32,7 @@ R_B_E = transpose(R_psi)*transpose(R_theta)*transpose(R_phi); % Rotation matrix 
 
 Fb_total = (R_E_B*FgI) + Fb;
 
-Vb_dot = Fb_total/m; % Translational Equations of Motion in Body frame
+Vb_dot = Fb_total/m - cross(omega_b, Vb); % Translational Equations of Motion in Body frame
 
 
 
@@ -40,7 +42,7 @@ Vb_dot = Fb_total/m; % Translational Equations of Motion in Body frame
 % Ib*d(omega_b)/dt + (omega_b x Ib*omega_b) = tau_b
 
 omega_b = [p;q;r];
-tau_b = [L;M;N];
+tau_b = [tau_x;tau_y;tau_z];
 
 Ib = [Ix 0 0; 0 Iy 0; 0 0 Iz];
 
