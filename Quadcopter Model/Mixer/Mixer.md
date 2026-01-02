@@ -235,7 +235,7 @@ M_x = \Sigma y_iT_i = \frac{l}{\sqrt{2}}T_1 - \frac{l}{\sqrt{2}}T_2 - \frac{l}{\
 $$
 
 $$
-M_x = \frac{l}{\sqrt{2}}(T_1 + T_2 + T_3 + T_4)
+M_x = \frac{l}{\sqrt{2}}(T_1 - T_2 - T_3 + T_4)
 $$
 
 ### Pitch Moment $M_y$
