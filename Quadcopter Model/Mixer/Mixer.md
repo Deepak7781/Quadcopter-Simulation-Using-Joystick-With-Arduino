@@ -45,15 +45,16 @@ So the lever arms are split equally between $x$ and $y$
 #### Motor position vectors
 
 $$
-
-r_i = \begin{bmatrix}
-        [\frac{l}{\sqrt{2}},\frac{l}{\sqrt{2}},0] \\\\ 
-        [\frac{l}{\sqrt{2}},-\frac{l}{\sqrt{2}},0] \\\\
-        [-\frac{l}{\sqrt{2}},-\frac{l}{\sqrt{2}},0] \\\\
-        [-\frac{l}{\sqrt{2}},\frac{l}{\sqrt{2}},0] \\\\
-      \end{bmatrix}
-
+\mathbf{r}_i =
+\begin{bmatrix}
+\left[ \frac{l}{\sqrt{2}}, \frac{l}{\sqrt{2}}, 0 \right] \\
+\left[ \frac{l}{\sqrt{2}}, -\frac{l}{\sqrt{2}}, 0 \right] \\
+\left[ -\frac{l}{\sqrt{2}}, -\frac{l}{\sqrt{2}}, 0 \right] \\
+\left[ -\frac{l}{\sqrt{2}}, \frac{l}{\sqrt{2}}, 0 \right]
+\end{bmatrix}
 $$
+
+
 
 The first element is the position of motor 1, second element corresponds to position of motor 2, third element corresponds to the position of motor 3 and the fourth element is the position of motor 4.
 
