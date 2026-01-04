@@ -160,10 +160,10 @@ $$
 
 ### y-component (pitch moment)
 
+-
 $$
 \tau_{y,i}
 =
--
 \begin{vmatrix}
 x_i & 0 \\
 0 & -T_i
