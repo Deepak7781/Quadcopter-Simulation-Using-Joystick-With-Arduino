@@ -102,7 +102,7 @@ $$
 \begin{bmatrix}
 0 \\
 0 \\
-- T_i
+-T_i
 \end{bmatrix}
 $$
 
@@ -112,9 +112,9 @@ $$
 
 For two vectors $(\mathbf{a} \times \mathbf{b})$:
 
+
 $$
-\mathbf{a} \times \mathbf{b}
-=
+\boldsymbol{a} \times \boldsymbol{b} =
 \begin{vmatrix}
 \hat{i} & \hat{j} & \hat{k} \\
 a_x & a_y & a_z \\
