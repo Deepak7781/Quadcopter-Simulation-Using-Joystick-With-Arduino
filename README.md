@@ -28,14 +28,3 @@ Parameters of the quadcopter
 
 ![Simulink Model](Media/quadModel.png)
 
-The above image shows the top level model of the Quadcopter. The blocks involved in the model are as follows:
-
-1. Reference Inputs
-2. Controller
-3. Mixer
-4. Motor Dynamics
-5. Thrust and Torque Mapping
-6. Rotation Matrix
-7. Quadcopter dynamics
-8.  Sensors
-9. State Estimator
