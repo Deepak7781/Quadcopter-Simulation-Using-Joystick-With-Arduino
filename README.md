@@ -24,7 +24,8 @@ Parameters of the quadcopter
 | Moment Coefficient $k_m$ | $N/(rad/s)^2$ | $1.1\times10^{-6}$ |
 
 
-## Step 2 : Build the Simulink Model
+## Step 2 : Build the Simulink Modelz
 
 ![Simulink Model](Media/quadModel.png)
+
 
