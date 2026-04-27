@@ -2,6 +2,7 @@ m = 1.37;
 Ixx = 0.0219;
 Iyy = 0.0109;
 Izz = 0.0306;
+I = [Ixx 0 0; 0 Iyy 0; 0 0 Izz];
 armLength = 0.18;
 propDia = 0.254;
 k_t = 1.3e-5;
