@@ -24,7 +24,7 @@ Imagine you're trying to track a friend's location in a foggy park using only gl
     - **Key Properties**
             - Zero mean: $\mathbb{E}[w] = 0$
             - Uncorrelated: Future noise doesn't depend on past noise. If $w_k$ is noise at time $k$, then $\mathbb{E}[w_kw_{k-1}] = 0$ (no memory)
-            - Stationary: Same statistics (variance) at all times.
+            - Stationary: Same statistics (variance) at all times. 
 
 - **Symbol** : We donte white noise as $w_k$ or $v_k$ (process or measurement noise).
 
